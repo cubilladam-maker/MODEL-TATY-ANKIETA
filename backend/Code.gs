@@ -121,7 +121,7 @@ function ensureSheets_() {
 function setupSurvey() {
   const ss=SpreadsheetApp.getActive(); const c=ss.getSheetByName(SHEET_CODES); const o=ss.getSheetByName(SHEET_RESPONSES);
   if ((c&&c.getLastRow()>1)||(o&&o.getLastRow()>1)) throw new Error('Ankieta zawiera dane. Użyj resetSurveyForNewRound() tylko przy nowej rundzie.');
-  ensureSheets_(); generateFamilyCodes();
+  ensureSheets_(); seedCodes();
 }
 
 function generateFamilyCodes() {
@@ -133,7 +133,7 @@ function generateFamilyCodes() {
 
 function resetSurveyForNewRound() {
   const ss=SpreadsheetApp.getActive(); let c=ss.getSheetByName(SHEET_CODES); let o=ss.getSheetByName(SHEET_RESPONSES); if(!c)c=ss.insertSheet(SHEET_CODES); if(!o)o=ss.insertSheet(SHEET_RESPONSES);
-  c.clear();o.clear();c.getRange(1,1,1,CODE_HEADERS.length).setValues([CODE_HEADERS]);o.getRange(1,1,1,RESPONSE_HEADERS.length).setValues([RESPONSE_HEADERS]);generateFamilyCodes();
+  c.clear();o.clear();c.getRange(1,1,1,CODE_HEADERS.length).setValues([CODE_HEADERS]);o.getRange(1,1,1,RESPONSE_HEADERS.length).setValues([RESPONSE_HEADERS]);seedCodes();
 }
 
 function setAdminCodeFromPrompt() {
