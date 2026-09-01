@@ -417,7 +417,7 @@ const DEMO_MODE = API_URL.startsWith('__');
 function demoOpen(code){
   if(code===DEMO_ADMIN_CODE) return {ok:true,mode:'admin',admin_session:'demo-admin',session_id:'demo-admin'};
   const person=DEMO_CODES[code];
-  if(!person || localStorage.getItem('cmss-demo-used-'+code)==='TAK') throw new Error('Kod niedostępny.');
+  if(!person || localStorage.getItem('cmss-demo-used-real-20260901-'+code)==='TAK') throw new Error('Kod niedostępny.');
   return {ok:true,mode:'respondent',respondent_id:person[0],respondent_label:person[1],session_id:'demo-'+code,code};
 }
 
@@ -425,11 +425,11 @@ const TOTAL = 35;
 let respondent = null;
 const gateMessage = document.querySelector('#gate-message');
 const setMessage = (el,text,kind='') => {el.textContent=text;el.className='message '+kind;};
-const api = async (payload) => { if(DEMO_MODE){ if(payload.action==='open') return demoOpen(String(payload.code||'')); if(payload.action==='submit'){ localStorage.setItem('cmss-demo-used-'+payload.code,'TAK'); localStorage.setItem('cmss-demo-answer-'+payload.code,JSON.stringify({submitted_at:new Date().toISOString(),answers:payload.answers||{}})); return {ok:true}; } throw new Error('Nieobsługiwana operacja demonstracyjna.'); } let r; try{r=await fetch(API_URL,{method:'POST',body:JSON.stringify(payload)});}catch(e){throw new Error('NETWORK_ERROR');} let d; try{d=await r.json();}catch(e){throw new Error('BAD_RESPONSE');} if(!d.ok) throw new Error(d.error||'Nie udało się wykonać operacji.'); return d; };
-const apiGet = async (params) => { if(DEMO_MODE){ if(params.action==='status') return new Response(JSON.stringify({ok:true,status:Object.entries(DEMO_CODES).map(([code,p])=>({id:p[0],label:p[1],submitted:localStorage.getItem('cmss-demo-used-'+code)==='TAK'}))}),{headers:{'Content-Type':'application/json'}}); if(params.action==='download'){
+const api = async (payload) => { if(DEMO_MODE){ if(payload.action==='open') return demoOpen(String(payload.code||'')); if(payload.action==='submit'){ localStorage.setItem('cmss-demo-used-real-20260901-'+payload.code,'TAK'); localStorage.setItem('cmss-demo-answer-real-20260901-'+payload.code,JSON.stringify({submitted_at:new Date().toISOString(),answers:payload.answers||{}})); return {ok:true}; } throw new Error('Nieobsługiwana operacja demonstracyjna.'); } let r; try{r=await fetch(API_URL,{method:'POST',body:JSON.stringify(payload)});}catch(e){throw new Error('NETWORK_ERROR');} let d; try{d=await r.json();}catch(e){throw new Error('BAD_RESPONSE');} if(!d.ok) throw new Error(d.error||'Nie udało się wykonać operacji.'); return d; };
+const apiGet = async (params) => { if(DEMO_MODE){ if(params.action==='status') return new Response(JSON.stringify({ok:true,status:Object.entries(DEMO_CODES).map(([code,p])=>({id:p[0],label:p[1],submitted:localStorage.getItem('cmss-demo-used-real-20260901-'+code)==='TAK'}))}),{headers:{'Content-Type':'application/json'}}); if(params.action==='download'){
   const headers=['timestamp','id','label'].concat(Array.from({length:TOTAL},(_,i)=>'view_'+String(i+1).padStart(2,'0')));
   const records=Object.entries(DEMO_CODES).map(([code,p])=>{
-    const raw=localStorage.getItem('cmss-demo-answer-'+code); let answers={}; let submittedAt='';
+    const raw=localStorage.getItem('cmss-demo-answer-real-20260901-'+code); let answers={}; let submittedAt='';
     try{const parsed=JSON.parse(raw||'{}'); if(parsed.answers){answers=parsed.answers;submittedAt=parsed.submitted_at||'';}else{answers=parsed;}}catch(e){}
     return {timestamp:submittedAt,id:p[0],label:p[1],code:code,...answers};
   }).filter(r=>Object.keys(r).some(k=>k.indexOf('view_')===0));
