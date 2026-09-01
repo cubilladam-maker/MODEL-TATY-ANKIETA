@@ -5,7 +5,36 @@
 :root{color-scheme:dark;--bg:#101722;--panel:#1b2432;--card:#222d3e;--line:#5e6c82;--text:#f8f9fc;--muted:#c3cad5;--accent:#b66cff}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#101722,#20283a);font-family:Arial,Helvetica,sans-serif;color:var(--text)}
 .wrap{max-width:1180px;margin:auto;padding:26px 20px 70px}.top{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;border-bottom:1px solid #3e4d63;padding-bottom:20px;margin-bottom:24px}.eyebrow{color:var(--accent);letter-spacing:.11em;font-weight:700;font-size:12px}.title{font-size:34px;line-height:1.08;margin:8px 0 0}.byline{color:var(--muted);text-align:right;font-size:14px;line-height:1.5}.panel{background:var(--panel);border:1px solid #51617a;border-radius:16px;padding:20px;margin-bottom:24px}.panel h2{font-size:21px;margin:0 0 9px}.panel p{color:var(--muted);line-height:1.55;margin:8px 0}.welcome-panel{border-color:#8d64ff;background:linear-gradient(135deg,#24203d,#1b2432)}.welcome-panel h2{color:#e6d7ff}.welcome-panel strong{color:#fff}.gate{max-width:560px;margin:34px auto}.code-row{display:flex;gap:10px;align-items:center;margin-top:18px}.code-row input{flex:1;background:#111822;border:1px solid #6c7c95;border-radius:10px;color:#fff;font-size:24px;letter-spacing:.25em;padding:12px 14px;text-align:center}.button{border:0;border-radius:10px;padding:13px 18px;font-weight:700;font-size:15px;cursor:pointer}.primary{background:linear-gradient(90deg,#a950ff,#3e86ff);color:#fff}.secondary{background:#34435a;color:#fff}.button:disabled{opacity:.5;cursor:not-allowed}.hint,.message{font-size:14px;color:var(--muted);margin-top:12px}.message.error{color:#ffabb7}.message.ok{color:#9be2bd}.status-box{margin-top:26px}.status-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}.status-item{display:flex;justify-content:space-between;gap:12px;background:#141d2a;border:1px solid #405069;border-radius:9px;padding:10px 12px}.status-item small{color:var(--muted)}.status-item .done{color:#91e2b3}.status-item .todo{color:#d2d9e4}.hidden{display:none}.instruction{border-left:4px solid var(--accent);padding-left:14px;color:var(--muted);line-height:1.55}.grid{display:grid;grid-template-columns:1fr;gap:24px}.view-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 8px 24px #0004}.view-title{font-weight:700;font-size:20px;letter-spacing:.07em;margin-bottom:14px}.view-card img{width:100%;height:auto;max-height:760px;object-fit:contain;display:block;background:#303a4b;border:1px solid #78869a;border-radius:11px}.view-card fieldset{border:0;padding:16px 0 0;margin:0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.view-card legend{grid-column:1/-1;color:var(--muted);font-size:15px;padding:0 0 2px}.pick{display:flex;align-items:center;justify-content:center;gap:9px;border:1px solid #56657c;background:#151d2a;border-radius:10px;padding:12px 8px;cursor:pointer;font-weight:700}.pick input{appearance:none;width:24px;height:24px;border-radius:5px;border:2px solid #edf2fa;background:#0d141f;position:relative;margin:0}.pick input:checked:after{content:'✓';position:absolute;left:3px;top:-4px;font-size:24px;color:#fff}.pick.yes input:checked{background:#2d9b68;border-color:#93e6bc}.pick.no input:checked{background:#bd4f61;border-color:#ffb3bf}.pick.unsure input:checked{background:#b5842c;border-color:#ffe29b}.pick.yes span{color:#86e8b5}.pick.no span{color:#ffabb6}.pick.unsure span{color:#ffe08b}.actions{position:sticky;bottom:10px;z-index:2;display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:#121a27f2;border:1px solid #63738c;border-radius:13px;padding:14px;margin-top:26px}.admin-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.foot{color:#929dad;font-size:12px;text-align:right;margin-top:22px}@media(max-width:700px){.wrap{padding:16px 10px 48px}.top{display:block}.byline{text-align:left;margin-top:10px}.title{font-size:27px}.code-row{display:block}.code-row input{width:100%;margin-bottom:10px}.code-row .button{width:100%}.status-list{grid-template-columns:1fr}.view-card{padding:12px}.view-card fieldset{gap:6px}.pick{font-size:12px;padding:9px 3px;gap:4px}.pick input{width:20px;height:20px}.pick input:checked:after{font-size:19px;left:2px;top:-3px}}
-</style></head><body><main class="wrap">
+<style>
+/* Układ telefonu: wygodne pola dotykowe i mniej przewijania */
+@media(max-width:700px){
+  body{font-size:16px}
+  .wrap{padding:14px 8px 34px}
+  .top{padding-bottom:14px;margin-bottom:14px}
+  .title{font-size:26px}
+  .byline{font-size:12px}
+  .panel{padding:14px;border-radius:13px;margin-bottom:14px}
+  .panel h2{font-size:19px}
+  .gate{margin:16px auto}
+  .code-row input{font-size:21px;padding:13px 10px;letter-spacing:.18em}
+  .button{min-height:48px;padding:12px 13px}
+  .welcome-panel{margin-bottom:12px}
+  .welcome-panel h2{font-size:22px}
+  .instruction{padding-left:11px}
+  .view-card{padding:10px;border-radius:13px}
+  .view-title{font-size:17px;margin-bottom:9px}
+  .view-card img{max-height:none;border-radius:9px}
+  .view-card fieldset{padding-top:10px;gap:6px}
+  .view-card legend{font-size:13px}
+  .pick{min-height:48px;padding:8px 2px;font-size:12px;gap:3px}
+  .pick input{width:21px;height:21px;flex:0 0 21px}
+  .actions{bottom:6px;padding:9px;margin-top:14px;gap:7px}
+  .actions .button{flex:1;min-width:0;font-size:13px}
+  #progress{width:100%;text-align:center;font-weight:700}
+  #done{text-align:center;padding:24px 16px}
+  #done h2{font-size:27px}
+}
+</style></style></head><body><main class="wrap">
 <header class="top"><div><div class="eyebrow">FORMULARZ RODZINNY</div><h1 class="title">Ocena widoków</h1></div><div class="byline">Wersja neutralna<br>formularz jednorazowy</div></header>
 <section class="panel gate" id="gate"><h2>Wpisz swój kod</h2><p>Kod otrzymałeś osobno. Każdy kod może zostać użyty tylko raz.</p><form id="code-form"><div class="code-row"><input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="5" pattern="[0-9]{5}" aria-label="Pięciocyfrowy kod" required><button class="button primary" type="submit">Otwórz formularz</button></div></form><div class="hint">Przy ocenie nie zobaczysz żadnych wcześniejszych odpowiedzi ani komentarzy.</div><div class="message" id="gate-message"></div></section>
 <section class="panel status-box" id="status-box"><h2>Status udziału</h2><p>Ta lista pokazuje wyłącznie, czy formularz został wysłany. Nie pokazuje żadnych ocen.</p><div class="status-list" id="status-list"><div class="status-item"><span>Ładowanie…</span></div></div></section>
