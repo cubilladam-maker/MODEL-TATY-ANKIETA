@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Formularz oceny widoków</title>
+<style>
+:root{color-scheme:dark;--bg:#101722;--panel:#1b2432;--card:#222d3e;--line:#5e6c82;--text:#f8f9fc;--muted:#c3cad5;--accent:#b66cff}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#101722,#20283a);font-family:Arial,Helvetica,sans-serif;color:var(--text)}
+.wrap{max-width:1180px;margin:auto;padding:26px 20px 70px}.top{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;border-bottom:1px solid #3e4d63;padding-bottom:20px;margin-bottom:24px}.eyebrow{color:var(--accent);letter-spacing:.11em;font-weight:700;font-size:12px}.title{font-size:34px;line-height:1.08;margin:8px 0 0}.byline{color:var(--muted);text-align:right;font-size:14px;line-height:1.5}.panel{background:var(--panel);border:1px solid #51617a;border-radius:16px;padding:20px;margin-bottom:24px}.panel h2{font-size:21px;margin:0 0 9px}.panel p{color:var(--muted);line-height:1.55;margin:8px 0}.gate{max-width:560px;margin:34px auto}.code-row{display:flex;gap:10px;align-items:center;margin-top:18px}.code-row input{flex:1;background:#111822;border:1px solid #6c7c95;border-radius:10px;color:#fff;font-size:24px;letter-spacing:.25em;padding:12px 14px;text-align:center}.button{border:0;border-radius:10px;padding:13px 18px;font-weight:700;font-size:15px;cursor:pointer}.primary{background:linear-gradient(90deg,#a950ff,#3e86ff);color:#fff}.secondary{background:#34435a;color:#fff}.button:disabled{opacity:.5;cursor:not-allowed}.hint,.message{font-size:14px;color:var(--muted);margin-top:12px}.message.error{color:#ffabb7}.message.ok{color:#9be2bd}.status-box{margin-top:26px}.status-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}.status-item{display:flex;justify-content:space-between;gap:12px;background:#141d2a;border:1px solid #405069;border-radius:9px;padding:10px 12px}.status-item small{color:var(--muted)}.status-item .done{color:#91e2b3}.status-item .todo{color:#d2d9e4}.hidden{display:none}.instruction{border-left:4px solid var(--accent);padding-left:14px;color:var(--muted);line-height:1.55}.grid{display:grid;grid-template-columns:1fr;gap:24px}.view-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 8px 24px #0004}.view-title{font-weight:700;font-size:20px;letter-spacing:.07em;margin-bottom:14px}.view-card img{width:100%;height:auto;max-height:760px;object-fit:contain;display:block;background:#303a4b;border:1px solid #78869a;border-radius:11px}.view-card fieldset{border:0;padding:16px 0 0;margin:0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.view-card legend{grid-column:1/-1;color:var(--muted);font-size:15px;padding:0 0 2px}.pick{display:flex;align-items:center;justify-content:center;gap:9px;border:1px solid #56657c;background:#151d2a;border-radius:10px;padding:12px 8px;cursor:pointer;font-weight:700}.pick input{appearance:none;width:24px;height:24px;border-radius:5px;border:2px solid #edf2fa;background:#0d141f;position:relative;margin:0}.pick input:checked:after{content:'✓';position:absolute;left:3px;top:-4px;font-size:24px;color:#fff}.pick.yes input:checked{background:#2d9b68;border-color:#93e6bc}.pick.no input:checked{background:#bd4f61;border-color:#ffb3bf}.pick.unsure input:checked{background:#b5842c;border-color:#ffe29b}.pick.yes span{color:#86e8b5}.pick.no span{color:#ffabb6}.pick.unsure span{color:#ffe08b}.actions{position:sticky;bottom:10px;z-index:2;display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:#121a27f2;border:1px solid #63738c;border-radius:13px;padding:14px;margin-top:26px}.admin-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.foot{color:#929dad;font-size:12px;text-align:right;margin-top:22px}@media(max-width:700px){.wrap{padding:16px 10px 48px}.top{display:block}.byline{text-align:left;margin-top:10px}.title{font-size:27px}.code-row{display:block}.code-row input{width:100%;margin-bottom:10px}.code-row .button{width:100%}.status-list{grid-template-columns:1fr}.view-card{padding:12px}.view-card fieldset{gap:6px}.pick{font-size:12px;padding:9px 3px;gap:4px}.pick input{width:20px;height:20px}.pick input:checked:after{font-size:19px;left:2px;top:-3px}}
+</style></head><body><main class="wrap">
+<header class="top"><div><div class="eyebrow">FORMULARZ RODZINNY</div><h1 class="title">Ocena widoków</h1></div><div class="byline">Wersja neutralna<br>formularz jednorazowy</div></header>
+<section class="panel gate" id="gate"><h2>Wpisz swój kod</h2><p>Kod otrzymałeś osobno. Każdy kod może zostać użyty tylko raz.</p><form id="code-form"><div class="code-row"><input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="5" pattern="[0-9]{5}" aria-label="Pięciocyfrowy kod" required><button class="button primary" type="submit">Otwórz formularz</button></div></form><div class="hint">Przy ocenie nie zobaczysz żadnych wcześniejszych odpowiedzi ani komentarzy.</div><div class="message" id="gate-message"></div></section>
+<section class="panel status-box" id="status-box"><h2>Status udziału</h2><p>Ta lista pokazuje wyłącznie, czy formularz został wysłany. Nie pokazuje żadnych ocen.</p><div class="status-list" id="status-list"><div class="status-item"><span>Ładowanie…</span></div></div></section>
+<section id="form-section" class="hidden"><section class="panel"><h2>Wybierz jedną odpowiedź przy każdym widoku</h2><p class="instruction">Oglądaj każdy widok niezależnie. Zaznacz <strong>TAK</strong>, <strong>NIE</strong> albo <strong>NIE WIEM</strong>. Nie ma odpowiedzi prawidłowych ani błędnych.</p><div class="message" id="save-message"></div></section><form id="rating-form"><section class="grid"><article class="view-card" data-view="01">
+  <div class="view-title">WIDOK 01</div>
+  <img src="assets/faces/01.jpg" alt="Widok 01" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_01" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_01" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_01" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="02">
+  <div class="view-title">WIDOK 02</div>
+  <img src="assets/faces/02.jpg" alt="Widok 02" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_02" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_02" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_02" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="03">
+  <div class="view-title">WIDOK 03</div>
+  <img src="assets/faces/03.jpg" alt="Widok 03" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_03" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_03" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_03" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="04">
+  <div class="view-title">WIDOK 04</div>
+  <img src="assets/faces/04.jpg" alt="Widok 04" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_04" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_04" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_04" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="05">
+  <div class="view-title">WIDOK 05</div>
+  <img src="assets/faces/05.jpg" alt="Widok 05" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_05" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_05" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_05" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="06">
+  <div class="view-title">WIDOK 06</div>
+  <img src="assets/faces/06.jpg" alt="Widok 06" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_06" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_06" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_06" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="07">
+  <div class="view-title">WIDOK 07</div>
+  <img src="assets/faces/07.jpg" alt="Widok 07" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_07" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_07" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_07" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="08">
+  <div class="view-title">WIDOK 08</div>
+  <img src="assets/faces/08.jpg" alt="Widok 08" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_08" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_08" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_08" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="09">
+  <div class="view-title">WIDOK 09</div>
+  <img src="assets/faces/09.jpg" alt="Widok 09" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_09" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_09" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_09" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="10">
+  <div class="view-title">WIDOK 10</div>
+  <img src="assets/faces/10.jpg" alt="Widok 10" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_10" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_10" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_10" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="11">
+  <div class="view-title">WIDOK 11</div>
+  <img src="assets/faces/11.jpg" alt="Widok 11" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_11" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_11" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_11" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="12">
+  <div class="view-title">WIDOK 12</div>
+  <img src="assets/faces/12.jpg" alt="Widok 12" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_12" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_12" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_12" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="13">
+  <div class="view-title">WIDOK 13</div>
+  <img src="assets/faces/13.jpg" alt="Widok 13" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_13" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_13" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_13" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="14">
+  <div class="view-title">WIDOK 14</div>
+  <img src="assets/faces/14.jpg" alt="Widok 14" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_14" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_14" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_14" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="15">
+  <div class="view-title">WIDOK 15</div>
+  <img src="assets/faces/15.jpg" alt="Widok 15" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_15" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_15" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_15" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="16">
+  <div class="view-title">WIDOK 16</div>
+  <img src="assets/faces/16.jpg" alt="Widok 16" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_16" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_16" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_16" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="17">
+  <div class="view-title">WIDOK 17</div>
+  <img src="assets/faces/17.jpg" alt="Widok 17" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_17" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_17" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_17" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="18">
+  <div class="view-title">WIDOK 18</div>
+  <img src="assets/faces/18.jpg" alt="Widok 18" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_18" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_18" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_18" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="19">
+  <div class="view-title">WIDOK 19</div>
+  <img src="assets/faces/19.jpg" alt="Widok 19" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_19" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_19" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_19" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="20">
+  <div class="view-title">WIDOK 20</div>
+  <img src="assets/faces/20.jpg" alt="Widok 20" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_20" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_20" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_20" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="21">
+  <div class="view-title">WIDOK 21</div>
+  <img src="assets/faces/21.jpg" alt="Widok 21" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_21" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_21" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_21" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="22">
+  <div class="view-title">WIDOK 22</div>
+  <img src="assets/faces/22.jpg" alt="Widok 22" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_22" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_22" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_22" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="23">
+  <div class="view-title">WIDOK 23</div>
+  <img src="assets/faces/23.jpg" alt="Widok 23" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_23" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_23" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_23" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="24">
+  <div class="view-title">WIDOK 24</div>
+  <img src="assets/faces/24.jpg" alt="Widok 24" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_24" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_24" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_24" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="25">
+  <div class="view-title">WIDOK 25</div>
+  <img src="assets/faces/25.jpg" alt="Widok 25" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_25" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_25" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_25" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="26">
+  <div class="view-title">WIDOK 26</div>
+  <img src="assets/faces/26.jpg" alt="Widok 26" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_26" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_26" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_26" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="27">
+  <div class="view-title">WIDOK 27</div>
+  <img src="assets/faces/27.jpg" alt="Widok 27" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_27" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_27" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_27" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="28">
+  <div class="view-title">WIDOK 28</div>
+  <img src="assets/faces/28.jpg" alt="Widok 28" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_28" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_28" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_28" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="29">
+  <div class="view-title">WIDOK 29</div>
+  <img src="assets/faces/29.jpg" alt="Widok 29" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_29" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_29" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_29" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="30">
+  <div class="view-title">WIDOK 30</div>
+  <img src="assets/faces/30.jpg" alt="Widok 30" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_30" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_30" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_30" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="31">
+  <div class="view-title">WIDOK 31</div>
+  <img src="assets/faces/31.jpg" alt="Widok 31" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_31" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_31" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_31" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="32">
+  <div class="view-title">WIDOK 32</div>
+  <img src="assets/faces/32.jpg" alt="Widok 32" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_32" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_32" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_32" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="33">
+  <div class="view-title">WIDOK 33</div>
+  <img src="assets/faces/33.jpg" alt="Widok 33" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_33" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_33" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_33" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="34">
+  <div class="view-title">WIDOK 34</div>
+  <img src="assets/faces/34.jpg" alt="Widok 34" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_34" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_34" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_34" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article>
+<article class="view-card" data-view="35">
+  <div class="view-title">WIDOK 35</div>
+  <img src="assets/faces/35.jpg" alt="Widok 35" loading="lazy">
+  <fieldset>
+    <legend>Twoja ocena</legend>
+    <label class="pick yes"><input type="radio" name="view_35" value="TAK"><span>TAK</span></label>
+    <label class="pick no"><input type="radio" name="view_35" value="NIE"><span>NIE</span></label>
+    <label class="pick unsure"><input type="radio" name="view_35" value="NIE WIEM"><span>NIE WIEM</span></label>
+  </fieldset>
+</article></section><div class="actions"><button class="button primary" type="submit">Wyślij odpowiedzi</button><button class="button secondary" type="button" id="clear-draft">Wyczyść zaznaczenia</button><span class="message" id="progress">0 / 35</span></div></form></section>
+<section class="panel hidden" id="admin-panel"><h2>Panel administratora</h2><p>Podgląd techniczny nie zapisuje ocen. Wyniki pobierzesz dopiero po uwierzytelnieniu kodem administratora.</p><div class="admin-actions"><button class="button secondary" type="button" id="admin-preview">Otwórz podgląd widoków</button><button class="button secondary" type="button" id="admin-csv">Pobierz CSV</button><button class="button secondary" type="button" id="admin-json">Pobierz JSON</button></div><div class="message" id="admin-message"></div></section>
+<section class="panel hidden" id="done"><h2>Dziękuję</h2><p>Odpowiedzi zostały zapisane. Ten kod nie może zostać użyty ponownie.</p></section>
+<div class="foot">Formularz przygotował Sławomir Szukalski</div>
+</main><script>
+const API_URL = new URLSearchParams(location.search).get('api') || '__API_URL__';
+const TOTAL = 35;
+let respondent = null;
+const gateMessage = document.querySelector('#gate-message');
+const setMessage = (el,text,kind='') => {el.textContent=text;el.className='message '+kind;};
+const api = async (payload) => { if(!API_URL || API_URL.startsWith('__')) throw new Error('SETUP_REQUIRED'); let r; try{r=await fetch(API_URL,{method:'POST',body:JSON.stringify(payload)});}catch(e){throw new Error('NETWORK_ERROR');} let d; try{d=await r.json();}catch(e){throw new Error('BAD_RESPONSE');} if(!d.ok) throw new Error(d.error||'Nie udało się wykonać operacji.'); return d; };
+const apiGet = async (params) => { if(!API_URL || API_URL.startsWith('__')) throw new Error('SETUP_REQUIRED'); let r; try{r=await fetch(API_URL+'?'+new URLSearchParams(params).toString());}catch(e){throw new Error('NETWORK_ERROR');} if(!r.ok) throw new Error('BAD_RESPONSE'); return r; };
+function friendlyError(err){ return ({SETUP_REQUIRED:'Formularz nie jest jeszcze podłączony do serwera ankiety.',NETWORK_ERROR:'Nie mogę połączyć się z serwerem ankiety. Sprawdź adres /exec.',BAD_RESPONSE:'Serwer zwrócił nieprawidłową odpowiedź.'}[err.message] || err.message || 'Operacja nie powiodła się.'); }
+async function refreshStatus(){ const box=document.querySelector('#status-list'); if(!API_URL||API_URL.startsWith('__')){box.innerHTML='<div class="status-item"><span>Serwer ankiety nie jest jeszcze podłączony</span><small>—</small></div>';return;} try{const r=await apiGet({action:'status'});const d=await r.json(); if(!d.ok) throw new Error(); box.innerHTML=d.status.map(x=>'<div class="status-item"><span>'+escapeHtml(x.label)+'</span><small class="'+(x.submitted?'done':'todo')+'">'+(x.submitted?'wysłano':'oczekuje')+'</small></div>').join('');}catch(e){box.innerHTML='<div class="status-item"><span>Serwer ankiety chwilowo niedostępny</span><small>—</small></div>';}}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
+function updateProgress(){const count=document.querySelectorAll('input[type=radio]:checked').length;document.querySelector('#progress').textContent=count+' / '+TOTAL;}
+function saveDraft(){if(!respondent)return;const d={};document.querySelectorAll('input[type=radio]:checked').forEach(x=>d[x.name]=x.value);sessionStorage.setItem('cmss-draft-'+respondent.session_id,JSON.stringify(d));document.querySelector('#save-message').textContent='Zaznaczenia zapisują się tylko na tym urządzeniu do chwili wysłania.';}
+function loadDraft(){if(!respondent)return;try{const d=JSON.parse(sessionStorage.getItem('cmss-draft-'+respondent.session_id)||'{}');document.querySelectorAll('input[type=radio]').forEach(x=>x.checked=d[x.name]===x.value);}catch(e){}updateProgress();}
+document.querySelectorAll('input[type=radio]').forEach(x=>x.addEventListener('change',()=>{saveDraft();updateProgress();}));
+document.querySelector('#code-form').addEventListener('submit',async e=>{e.preventDefault();const code=document.querySelector('#code').value.trim();if(!/^\d{5}$/.test(code)){setMessage(gateMessage,'Wpisz dokładnie pięć cyfr.','error');return;}const b=e.submitter;b.disabled=true;setMessage(gateMessage,'Sprawdzam kod…');try{const d=await api({action:'open',code});respondent=d;document.querySelector('#gate').classList.add('hidden');if(d.mode==='admin'){document.querySelector('#status-box').classList.remove('hidden');document.querySelector('#admin-panel').classList.remove('hidden');setMessage(document.querySelector('#admin-message'),'Panel administratora aktywny.','ok');}else{document.querySelector('#status-box').classList.add('hidden');document.querySelector('#form-section').classList.remove('hidden');loadDraft();}window.scrollTo({top:0,behavior:'smooth'});}catch(err){setMessage(gateMessage,err.message==='SETUP_REQUIRED'?'Formularz nie jest jeszcze uruchomiony na serwerze.':(err.message==='NETWORK_ERROR'?'Nie można połączyć z serwerem ankiety.':'Kod jest nieprawidłowy albo został już wykorzystany.'),'error');b.disabled=false;}});
+document.querySelector('#admin-preview').addEventListener('click',()=>{document.querySelector('#status-box').classList.add('hidden');document.querySelector('#admin-panel').classList.add('hidden');document.querySelector('#form-section').classList.remove('hidden');document.querySelector('#save-message').textContent='Podgląd administratora — odpowiedzi nie są wysyłane.';document.querySelector('#rating-form button[type=submit]').textContent='Zamknij podgląd';});
+async function downloadAdmin(format){if(!respondent||respondent.mode!=='admin'||!respondent.admin_session){setMessage(document.querySelector('#admin-message'),'Sesja administratora wygasła — wpisz kod ponownie.','error');return;}const b=document.querySelector(format==='csv'?'#admin-csv':'#admin-json');b.disabled=true;setMessage(document.querySelector('#admin-message'),'Przygotowuję plik…');try{const r=await apiGet({action:'download',format,admin_session:respondent.admin_session});const blob=await r.blob();const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ankieta-stanislaw-szukalski-'+format+'-'+new Date().toISOString().slice(0,10)+'.'+format;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);setMessage(document.querySelector('#admin-message'),'Pobrano plik '+format.toUpperCase()+'.','ok');}catch(err){setMessage(document.querySelector('#admin-message'),friendlyError(err),'error');}finally{b.disabled=false;}}
+document.querySelector('#admin-csv').addEventListener('click',()=>downloadAdmin('csv'));
+document.querySelector('#admin-json').addEventListener('click',()=>downloadAdmin('json'));
+document.querySelector('#clear-draft').addEventListener('click',()=>{document.querySelectorAll('input[type=radio]').forEach(x=>x.checked=false);if(respondent)sessionStorage.removeItem('cmss-draft-'+respondent.session_id);updateProgress();});
+document.querySelector('#rating-form').addEventListener('submit',async e=>{e.preventDefault();if(respondent&&respondent.mode==='admin'){document.querySelector('#form-section').classList.add('hidden');document.querySelector('#admin-panel').classList.remove('hidden');document.querySelector('#status-box').classList.remove('hidden');return;}const values={};for(let i=1;i<=TOTAL;i++){const n='view_'+String(i).padStart(2,'0');const x=document.querySelector('input[name="'+n+'"]').checked?document.querySelector('input[name="'+n+'"]:checked'):null;if(!x){setMessage(document.querySelector('#save-message'),'Zaznacz jedną odpowiedź przy każdym widoku.','error');document.querySelector('[data-view="'+i+'"]').scrollIntoView({behavior:'smooth',block:'center'});return;}values[n]=x.value;}const b=e.submitter;b.disabled=true;setMessage(document.querySelector('#save-message'),'Zapisuję odpowiedzi…');try{await api({action:'submit',session_id:respondent.session_id,code:respondent.code,answers:values});sessionStorage.removeItem('cmss-draft-'+respondent.session_id);document.querySelector('#form-section').classList.add('hidden');document.querySelector('#done').classList.remove('hidden');await refreshStatus();}catch(err){setMessage(document.querySelector('#save-message'),friendlyError(err),'error');b.disabled=false;}});
+refreshStatus();
+</script></body></html>
