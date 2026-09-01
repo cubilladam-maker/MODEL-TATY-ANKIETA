@@ -34,13 +34,22 @@
   #done{text-align:center;padding:24px 16px}
   #done h2{font-size:27px}
 }
-</style></style></head><body><main class="wrap">
+<style>
+/* Właściwy kadr popiersia — działa na telefonie i komputerze */
+.portrait-crop{width:100%;aspect-ratio:1/1;overflow:hidden;background:#303a4b;border:1px solid #78869a;border-radius:11px;position:relative}
+.portrait-crop img{width:100%;height:100%;max-height:none;object-fit:cover;object-position:center;transform:scale(1.9);transform-origin:center center;border:0;border-radius:0}
+.portrait-crop + fieldset{position:relative;z-index:1}
+@media(max-width:700px){
+  .portrait-crop{aspect-ratio:1/1;border-radius:0;border-left:0;border-right:0}
+  .portrait-crop img{height:100%;transform:scale(1.9)}
+}
+</style></style></style></head><body><main class="wrap">
 <header class="top"><div><div class="eyebrow">FORMULARZ RODZINNY</div><h1 class="title">Ocena widoków</h1></div><div class="byline">Wersja neutralna<br>formularz jednorazowy</div></header>
 <section class="panel gate" id="gate"><h2>Wpisz swój kod</h2><p>Kod otrzymałeś osobno. Każdy kod może zostać użyty tylko raz.</p><form id="code-form"><div class="code-row"><input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="5" pattern="[0-9]{5}" aria-label="Pięciocyfrowy kod" required><button class="button primary" type="submit">Otwórz formularz</button></div></form><div class="hint">Przy ocenie nie zobaczysz żadnych wcześniejszych odpowiedzi ani komentarzy.</div><div class="message" id="gate-message"></div></section>
 <section class="panel status-box" id="status-box"><h2>Status udziału</h2><p>Ta lista pokazuje wyłącznie, czy formularz został wysłany. Nie pokazuje żadnych ocen.</p><div class="status-list" id="status-list"><div class="status-item"><span>Ładowanie…</span></div></div></section>
 <section id="form-section" class="hidden"><section class="panel welcome-panel" id="welcome-panel"><h2 id="welcome-title">Witaj!</h2><p id="welcome-text">Dziękuję za udział w rodzinnej ankiecie.</p></section><section class="panel"><h2>Wybierz jedną odpowiedź przy każdym widoku</h2><p class="instruction">Oglądaj każdy widok niezależnie. Zaznacz <strong>TAK</strong>, <strong>NIE</strong> albo <strong>NIE WIEM</strong>. Nie ma odpowiedzi prawidłowych ani błędnych.</p><div class="message" id="save-message"></div></section><form id="rating-form"><section class="grid"><article class="view-card" data-view="01">
   <div class="view-title">WIDOK 01</div>
-  <img src="assets/faces/01.jpg" alt="Widok 01" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/01.jpg" alt="Widok 01" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_01" value="TAK"><span>TAK</span></label>
@@ -50,7 +59,7 @@
 </article>
 <article class="view-card" data-view="02">
   <div class="view-title">WIDOK 02</div>
-  <img src="assets/faces/02.jpg" alt="Widok 02" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/02.jpg" alt="Widok 02" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_02" value="TAK"><span>TAK</span></label>
@@ -60,7 +69,7 @@
 </article>
 <article class="view-card" data-view="03">
   <div class="view-title">WIDOK 03</div>
-  <img src="assets/faces/03.jpg" alt="Widok 03" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/03.jpg" alt="Widok 03" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_03" value="TAK"><span>TAK</span></label>
@@ -70,7 +79,7 @@
 </article>
 <article class="view-card" data-view="04">
   <div class="view-title">WIDOK 04</div>
-  <img src="assets/faces/04.jpg" alt="Widok 04" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/04.jpg" alt="Widok 04" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_04" value="TAK"><span>TAK</span></label>
@@ -80,7 +89,7 @@
 </article>
 <article class="view-card" data-view="05">
   <div class="view-title">WIDOK 05</div>
-  <img src="assets/faces/05.jpg" alt="Widok 05" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/05.jpg" alt="Widok 05" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_05" value="TAK"><span>TAK</span></label>
@@ -90,7 +99,7 @@
 </article>
 <article class="view-card" data-view="06">
   <div class="view-title">WIDOK 06</div>
-  <img src="assets/faces/06.jpg" alt="Widok 06" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/06.jpg" alt="Widok 06" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_06" value="TAK"><span>TAK</span></label>
@@ -100,7 +109,7 @@
 </article>
 <article class="view-card" data-view="07">
   <div class="view-title">WIDOK 07</div>
-  <img src="assets/faces/07.jpg" alt="Widok 07" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/07.jpg" alt="Widok 07" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_07" value="TAK"><span>TAK</span></label>
@@ -110,7 +119,7 @@
 </article>
 <article class="view-card" data-view="08">
   <div class="view-title">WIDOK 08</div>
-  <img src="assets/faces/08.jpg" alt="Widok 08" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/08.jpg" alt="Widok 08" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_08" value="TAK"><span>TAK</span></label>
@@ -120,7 +129,7 @@
 </article>
 <article class="view-card" data-view="09">
   <div class="view-title">WIDOK 09</div>
-  <img src="assets/faces/09.jpg" alt="Widok 09" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/09.jpg" alt="Widok 09" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_09" value="TAK"><span>TAK</span></label>
@@ -130,7 +139,7 @@
 </article>
 <article class="view-card" data-view="10">
   <div class="view-title">WIDOK 10</div>
-  <img src="assets/faces/10.jpg" alt="Widok 10" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/10.jpg" alt="Widok 10" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_10" value="TAK"><span>TAK</span></label>
@@ -140,7 +149,7 @@
 </article>
 <article class="view-card" data-view="11">
   <div class="view-title">WIDOK 11</div>
-  <img src="assets/faces/11.jpg" alt="Widok 11" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/11.jpg" alt="Widok 11" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_11" value="TAK"><span>TAK</span></label>
@@ -150,7 +159,7 @@
 </article>
 <article class="view-card" data-view="12">
   <div class="view-title">WIDOK 12</div>
-  <img src="assets/faces/12.jpg" alt="Widok 12" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/12.jpg" alt="Widok 12" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_12" value="TAK"><span>TAK</span></label>
@@ -160,7 +169,7 @@
 </article>
 <article class="view-card" data-view="13">
   <div class="view-title">WIDOK 13</div>
-  <img src="assets/faces/13.jpg" alt="Widok 13" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/13.jpg" alt="Widok 13" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_13" value="TAK"><span>TAK</span></label>
@@ -170,7 +179,7 @@
 </article>
 <article class="view-card" data-view="14">
   <div class="view-title">WIDOK 14</div>
-  <img src="assets/faces/14.jpg" alt="Widok 14" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/14.jpg" alt="Widok 14" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_14" value="TAK"><span>TAK</span></label>
@@ -180,7 +189,7 @@
 </article>
 <article class="view-card" data-view="15">
   <div class="view-title">WIDOK 15</div>
-  <img src="assets/faces/15.jpg" alt="Widok 15" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/15.jpg" alt="Widok 15" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_15" value="TAK"><span>TAK</span></label>
@@ -190,7 +199,7 @@
 </article>
 <article class="view-card" data-view="16">
   <div class="view-title">WIDOK 16</div>
-  <img src="assets/faces/16.jpg" alt="Widok 16" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/16.jpg" alt="Widok 16" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_16" value="TAK"><span>TAK</span></label>
@@ -200,7 +209,7 @@
 </article>
 <article class="view-card" data-view="17">
   <div class="view-title">WIDOK 17</div>
-  <img src="assets/faces/17.jpg" alt="Widok 17" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/17.jpg" alt="Widok 17" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_17" value="TAK"><span>TAK</span></label>
@@ -210,7 +219,7 @@
 </article>
 <article class="view-card" data-view="18">
   <div class="view-title">WIDOK 18</div>
-  <img src="assets/faces/18.jpg" alt="Widok 18" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/18.jpg" alt="Widok 18" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_18" value="TAK"><span>TAK</span></label>
@@ -220,7 +229,7 @@
 </article>
 <article class="view-card" data-view="19">
   <div class="view-title">WIDOK 19</div>
-  <img src="assets/faces/19.jpg" alt="Widok 19" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/19.jpg" alt="Widok 19" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_19" value="TAK"><span>TAK</span></label>
@@ -230,7 +239,7 @@
 </article>
 <article class="view-card" data-view="20">
   <div class="view-title">WIDOK 20</div>
-  <img src="assets/faces/20.jpg" alt="Widok 20" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/20.jpg" alt="Widok 20" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_20" value="TAK"><span>TAK</span></label>
@@ -240,7 +249,7 @@
 </article>
 <article class="view-card" data-view="21">
   <div class="view-title">WIDOK 21</div>
-  <img src="assets/faces/21.jpg" alt="Widok 21" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/21.jpg" alt="Widok 21" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_21" value="TAK"><span>TAK</span></label>
@@ -250,7 +259,7 @@
 </article>
 <article class="view-card" data-view="22">
   <div class="view-title">WIDOK 22</div>
-  <img src="assets/faces/22.jpg" alt="Widok 22" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/22.jpg" alt="Widok 22" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_22" value="TAK"><span>TAK</span></label>
@@ -260,7 +269,7 @@
 </article>
 <article class="view-card" data-view="23">
   <div class="view-title">WIDOK 23</div>
-  <img src="assets/faces/23.jpg" alt="Widok 23" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/23.jpg" alt="Widok 23" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_23" value="TAK"><span>TAK</span></label>
@@ -270,7 +279,7 @@
 </article>
 <article class="view-card" data-view="24">
   <div class="view-title">WIDOK 24</div>
-  <img src="assets/faces/24.jpg" alt="Widok 24" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/24.jpg" alt="Widok 24" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_24" value="TAK"><span>TAK</span></label>
@@ -280,7 +289,7 @@
 </article>
 <article class="view-card" data-view="25">
   <div class="view-title">WIDOK 25</div>
-  <img src="assets/faces/25.jpg" alt="Widok 25" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/25.jpg" alt="Widok 25" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_25" value="TAK"><span>TAK</span></label>
@@ -290,7 +299,7 @@
 </article>
 <article class="view-card" data-view="26">
   <div class="view-title">WIDOK 26</div>
-  <img src="assets/faces/26.jpg" alt="Widok 26" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/26.jpg" alt="Widok 26" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_26" value="TAK"><span>TAK</span></label>
@@ -300,7 +309,7 @@
 </article>
 <article class="view-card" data-view="27">
   <div class="view-title">WIDOK 27</div>
-  <img src="assets/faces/27.jpg" alt="Widok 27" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/27.jpg" alt="Widok 27" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_27" value="TAK"><span>TAK</span></label>
@@ -310,7 +319,7 @@
 </article>
 <article class="view-card" data-view="28">
   <div class="view-title">WIDOK 28</div>
-  <img src="assets/faces/28.jpg" alt="Widok 28" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/28.jpg" alt="Widok 28" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_28" value="TAK"><span>TAK</span></label>
@@ -320,7 +329,7 @@
 </article>
 <article class="view-card" data-view="29">
   <div class="view-title">WIDOK 29</div>
-  <img src="assets/faces/29.jpg" alt="Widok 29" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/29.jpg" alt="Widok 29" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_29" value="TAK"><span>TAK</span></label>
@@ -330,7 +339,7 @@
 </article>
 <article class="view-card" data-view="30">
   <div class="view-title">WIDOK 30</div>
-  <img src="assets/faces/30.jpg" alt="Widok 30" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/30.jpg" alt="Widok 30" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_30" value="TAK"><span>TAK</span></label>
@@ -340,7 +349,7 @@
 </article>
 <article class="view-card" data-view="31">
   <div class="view-title">WIDOK 31</div>
-  <img src="assets/faces/31.jpg" alt="Widok 31" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/31.jpg" alt="Widok 31" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_31" value="TAK"><span>TAK</span></label>
@@ -350,7 +359,7 @@
 </article>
 <article class="view-card" data-view="32">
   <div class="view-title">WIDOK 32</div>
-  <img src="assets/faces/32.jpg" alt="Widok 32" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/32.jpg" alt="Widok 32" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_32" value="TAK"><span>TAK</span></label>
@@ -360,7 +369,7 @@
 </article>
 <article class="view-card" data-view="33">
   <div class="view-title">WIDOK 33</div>
-  <img src="assets/faces/33.jpg" alt="Widok 33" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/33.jpg" alt="Widok 33" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_33" value="TAK"><span>TAK</span></label>
@@ -370,7 +379,7 @@
 </article>
 <article class="view-card" data-view="34">
   <div class="view-title">WIDOK 34</div>
-  <img src="assets/faces/34.jpg" alt="Widok 34" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/34.jpg" alt="Widok 34" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_34" value="TAK"><span>TAK</span></label>
@@ -380,7 +389,7 @@
 </article>
 <article class="view-card" data-view="35">
   <div class="view-title">WIDOK 35</div>
-  <img src="assets/faces/35.jpg" alt="Widok 35" loading="lazy">
+  <div class="portrait-crop"><img src="assets/faces/35.jpg" alt="Widok 35" loading="lazy"></div>
   <fieldset>
     <legend>Twoja ocena</legend>
     <label class="pick yes"><input type="radio" name="view_35" value="TAK"><span>TAK</span></label>
