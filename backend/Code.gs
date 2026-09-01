@@ -48,7 +48,7 @@ function open_(code) {
     const session = row.session || Utilities.getUuid();
     const info = codesInfo_();
     if (!row.session) info.sheet.getRange(row.row, info.idx.session_id, 1, 2).setValues([[session,new Date()]]);
-    return json_({ok:true,mode:'respondent',respondent_id:row.id,session_id:session,code:code});
+    return json_({ok:true,mode:'respondent',respondent_id:row.id,respondent_label:row.label,session_id:session,code:code});
   } finally { lock.releaseLock(); }
 }
 
