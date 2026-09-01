@@ -364,12 +364,31 @@
 <div class="foot">Formularz przygotował Sławomir Szukalski</div>
 </main><script>
 const API_URL = new URLSearchParams(location.search).get('api') || '__API_URL__';
+const DEMO_CODES = {
+  '24618':['P01','Piotr Szukalski'],
+  '73905':['P02','Piotr Jankiewicz'],
+  '41826':['P03','Andrzej Szukalski'],
+  '65073':['P04','Emilia Jankiewicz'],
+  '92714':['P05','Monika Jankiewicz'],
+  '30586':['P06','Violeta Jakóbczak'],
+  '86421':['P07','Ewa Szukalska'],
+  '15739':['P08','Zofia Szukalska']
+};
+const DEMO_ADMIN_CODE = '58142';
+const DEMO_MODE = API_URL.startsWith('__');
+function demoOpen(code){
+  if(code===DEMO_ADMIN_CODE) return {ok:true,mode:'admin',admin_session:'demo-admin',session_id:'demo-admin'};
+  const person=DEMO_CODES[code];
+  if(!person || localStorage.getItem('cmss-demo-used-'+code)==='TAK') throw new Error('Kod niedostępny.');
+  return {ok:true,mode:'respondent',respondent_id:person[0],respondent_label:person[1],session_id:'demo-'+code,code};
+}
+
 const TOTAL = 35;
 let respondent = null;
 const gateMessage = document.querySelector('#gate-message');
 const setMessage = (el,text,kind='') => {el.textContent=text;el.className='message '+kind;};
-const api = async (payload) => { if(!API_URL || API_URL.startsWith('__')) throw new Error('SETUP_REQUIRED'); let r; try{r=await fetch(API_URL,{method:'POST',body:JSON.stringify(payload)});}catch(e){throw new Error('NETWORK_ERROR');} let d; try{d=await r.json();}catch(e){throw new Error('BAD_RESPONSE');} if(!d.ok) throw new Error(d.error||'Nie udało się wykonać operacji.'); return d; };
-const apiGet = async (params) => { if(!API_URL || API_URL.startsWith('__')) throw new Error('SETUP_REQUIRED'); let r; try{r=await fetch(API_URL+'?'+new URLSearchParams(params).toString());}catch(e){throw new Error('NETWORK_ERROR');} if(!r.ok) throw new Error('BAD_RESPONSE'); return r; };
+const api = async (payload) => { if(DEMO_MODE){ if(payload.action==='open') return demoOpen(String(payload.code||'')); if(payload.action==='submit'){ localStorage.setItem('cmss-demo-used-'+payload.code,'TAK'); localStorage.setItem('cmss-demo-answer-'+payload.code,JSON.stringify(payload.answers||{})); return {ok:true}; } throw new Error('Nieobsługiwana operacja demonstracyjna.'); } let r; try{r=await fetch(API_URL,{method:'POST',body:JSON.stringify(payload)});}catch(e){throw new Error('NETWORK_ERROR');} let d; try{d=await r.json();}catch(e){throw new Error('BAD_RESPONSE');} if(!d.ok) throw new Error(d.error||'Nie udało się wykonać operacji.'); return d; };
+const apiGet = async (params) => { if(DEMO_MODE){ if(params.action==='status') return new Response(JSON.stringify({ok:true,status:Object.entries(DEMO_CODES).map(([code,p])=>({id:p[0],label:p[1],submitted:localStorage.getItem('cmss-demo-used-'+code)==='TAK'}))}),{headers:{'Content-Type':'application/json'}}); if(params.action==='download') return new Response('',{headers:{'Content-Type':params.format==='json'?'application/json':'text/csv'}}); throw new Error('Nieobsługiwana operacja demonstracyjna.'); } let r; try{r=await fetch(API_URL+'?'+new URLSearchParams(params).toString());}catch(e){throw new Error('NETWORK_ERROR');} if(!r.ok) throw new Error('BAD_RESPONSE'); return r; };
 function friendlyError(err){ return ({SETUP_REQUIRED:'Formularz nie jest jeszcze podłączony do serwera ankiety.',NETWORK_ERROR:'Nie mogę połączyć się z serwerem ankiety. Sprawdź adres /exec.',BAD_RESPONSE:'Serwer zwrócił nieprawidłową odpowiedź.'}[err.message] || err.message || 'Operacja nie powiodła się.'); }
 async function refreshStatus(){ const box=document.querySelector('#status-list'); if(!API_URL||API_URL.startsWith('__')){box.innerHTML='<div class="status-item"><span>Serwer ankiety nie jest jeszcze podłączony</span><small>—</small></div>';return;} try{const r=await apiGet({action:'status'});const d=await r.json(); if(!d.ok) throw new Error(); box.innerHTML=d.status.map(x=>'<div class="status-item"><span>'+escapeHtml(x.label)+'</span><small class="'+(x.submitted?'done':'todo')+'">'+(x.submitted?'wysłano':'oczekuje')+'</small></div>').join('');}catch(e){box.innerHTML='<div class="status-item"><span>Serwer ankiety chwilowo niedostępny</span><small>—</small></div>';}}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
